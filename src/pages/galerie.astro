@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Photos illustratives Unsplash en attendant les vraies réalisations.
+// Tags et titres alignés sur ce que chaque image montre réellement.
+const items = [
+  { src: '/img/hero-slider-img/slide1.jpg',           tag: 'BTP',          title: 'Ferraillage de dalle béton' },
+  { src: '/img/hero-slider-img/hero-slider-img-4.jpg',tag: 'BTP',          title: 'Équipe sur chantier en élévation' },
+  { src: '/img/counter-bg.jpg',                       tag: 'BTP',          title: 'Travail en hauteur sur structure' },
+  { src: '/img/feathers-bg.jpg',                      tag: 'Études',       title: 'Conception de plan architectural' },
+  { src: '/img/price-bg.jpg',                         tag: 'Études',       title: 'Plan technique au détail' },
+  { src: '/img/hero-slider-img/hero-slider-img-3.jpg',tag: 'Électricité',  title: 'Test et diagnostic au multimètre' },
+  { src: '/img/hero-slider-img/slide2.webp',          tag: 'Informatique', title: 'Développement et maintenance systèmes' },
+  { src: '/img/partner-bg.jpg',                       tag: 'Équipe',       title: 'Réunion projet en équipe' },
+  { src: '/img/contact-info-bg.jpg',                  tag: 'Architecture', title: 'Skyline urbaine de nuit' },
+];
+
+const categories = ['Tous', ...Array.from(new Set(items.map((i) => i.tag)))];
+---
+
+<BaseLayout title="Galerie" description="Découvrez quelques-unes de nos réalisations dans le BTP, l'électricité, la climatisation et plus encore.">
+  <!-- Banner -->
+  <section class="relative py-24 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/img/banner-bg.jpg')"></div>
+    <div class="absolute inset-0 bg-brand-navy/85"></div>
+    <div class="relative max-w-7xl mx-auto px-4 text-center">
+      <h1 class="font-heading text-4xl md:text-5xl font-black mb-4">Galerie</h1>
+      <nav class="text-gray-300"><a href="/" class="hover:text-brand-red">Accueil</a> / <span class="text-brand-red">Galerie</span></nav>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-brand-red font-medium tracking-widest text-sm">| QUELQUES RÉALISATIONS</span>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-3">Nos chantiers en images</h2>
+        <p class="text-gray-600 mt-4">
+          Aperçu de quelques projets que nous avons menés à bien pour des clients particuliers et professionnels.
+        </p>
+      </div>
+
+      <!-- Filtres -->
+      <div class="flex flex-wrap justify-center gap-3 mb-10">
+        {categories.map((c, i) => (
+          <button
+            data-filter={c}
+            class:list={[
+              'gallery-filter px-5 py-2 rounded-full font-medium transition',
+              i === 0 ? 'bg-brand-red text-white' : 'bg-gray-100 text-brand-navy hover:bg-gray-200',
+            ]}
+          >
+            {c}
+          </button>
+        ))}
+      </div>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {items.map((item) => (
+          <figure
+            data-tag={item.tag}
+            class="gallery-item group relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition aspect-[4/3]"
+          >
+            <img src={item.src} alt={item.title} loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+            <figcaption class="absolute inset-0 bg-gradient-to-t from-brand-navy/95 via-brand-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-5">
+              <span class="text-brand-red text-xs font-bold tracking-widest mb-2">{item.tag.toUpperCase()}</span>
+              <h3 class="text-white font-heading font-bold text-lg">{item.title}</h3>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <p class="text-center text-gray-500 text-sm mt-12">
+        Photos illustratives en attente de remplacement par les vraies réalisations.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll('.gallery-filter');
+  const items = document.querySelectorAll('.gallery-item');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => { b.classList.remove('bg-brand-red', 'text-white'); b.classList.add('bg-gray-100', 'text-brand-navy'); });
+      btn.classList.remove('bg-gray-100', 'text-brand-navy');
+      btn.classList.add('bg-brand-red', 'text-white');
+      const filter = (btn as HTMLElement).dataset.filter;
+      items.forEach((item) => {
+        const el = item as HTMLElement;
+        el.style.display = filter === 'Tous' || el.dataset.tag === filter ? '' : 'none';
+      });
+    });
+  });
+</script>

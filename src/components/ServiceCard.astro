@@ -1,0 +1,25 @@
+---
+import type { Service } from '../data/services';
+export interface Props { service: Service; index?: number }
+const { service, index } = Astro.props;
+---
+
+<a
+  href={`/services/${service.slug}`}
+  class="group relative block bg-white rounded-xl p-8 border border-gray-100 hover:border-brand-red transition-all hover:shadow-xl overflow-hidden"
+>
+  {index !== undefined && (
+    <span class="absolute -top-2 -right-2 text-7xl font-black text-gray-100 group-hover:text-brand-red/10 transition select-none">
+      {String(index + 1).padStart(2, '0')}
+    </span>
+  )}
+  <div class="relative">
+    <img src={service.icon} alt="" class="w-16 h-16 mb-5 object-contain" />
+    <h3 class="font-heading font-bold text-xl mb-3 text-brand-navy">{service.title}</h3>
+    <p class="text-gray-600 mb-4 leading-relaxed">{service.excerpt}</p>
+    <span class="inline-flex items-center gap-2 text-brand-red font-medium group-hover:gap-3 transition-all">
+      En savoir plus
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </span>
+  </div>
+</a>

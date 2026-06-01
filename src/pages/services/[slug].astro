@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { services } from '../../data/services';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+
+const { service } = Astro.props;
+const others = services.filter((s) => s.slug !== service.slug).slice(0, 3);
+---
+
+<BaseLayout title={service.title} description={service.excerpt}>
+  <!-- Banner -->
+  <section class="relative py-24 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/img/banner-bg.jpg')"></div>
+    <div class="absolute inset-0 bg-brand-navy/85"></div>
+    <div class="relative max-w-7xl mx-auto px-4 text-center">
+      <h1 class="font-heading text-4xl md:text-5xl font-black mb-4">{service.title}</h1>
+      <nav class="text-gray-300">
+        <a href="/" class="hover:text-brand-red">Accueil</a> /
+        <a href="/services" class="hover:text-brand-red">Services</a> /
+        <span class="text-brand-red">{service.title}</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2">
+        <img src={service.icon} alt="" class="w-20 h-20 mb-6 object-contain" />
+        <h2 class="font-heading text-3xl font-bold mb-6">{service.title}</h2>
+        {service.details.map((p) => (
+          <p class="text-gray-600 leading-relaxed mb-4">{p}</p>
+        ))}
+
+        <h3 class="font-heading text-xl font-bold mt-10 mb-4">Nos prestations</h3>
+        <ul class="space-y-3">
+          {service.highlights.map((h) => (
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-brand-red flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <span class="text-gray-700">{h}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="mt-10 p-6 bg-gray-50 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h4 class="font-heading font-bold mb-1">Intéressé par ce service ?</h4>
+            <p class="text-gray-600 text-sm">Recevez un devis gratuit personnalisé.</p>
+          </div>
+          <a href="/contact" class="bg-brand-red text-white px-6 py-3 rounded-md font-medium hover:bg-brand-red-dark transition">
+            Demander un devis
+          </a>
+        </div>
+      </div>
+
+      <aside class="space-y-6">
+        <div class="bg-brand-navy text-white p-6 rounded-xl">
+          <h3 class="font-heading font-bold text-lg mb-4">Besoin urgent ?</h3>
+          <p class="text-gray-300 text-sm mb-4">Notre équipe intervient 24h/24, 7j/7.</p>
+          {site.phones.map((p) => (
+            <a href={`tel:${p.replace(/\s/g, '')}`} class="block text-brand-red font-bold text-lg hover:text-white transition">{p}</a>
+          ))}
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-xl">
+          <h3 class="font-heading font-bold text-lg mb-4">Autres services</h3>
+          <ul class="space-y-2">
+            {services.map((s) => (
+              <li>
+                <a
+                  href={`/services/${s.slug}`}
+                  class:list={[
+                    'flex items-center gap-3 px-4 py-3 rounded-lg transition',
+                    s.slug === service.slug ? 'bg-brand-red text-white font-medium' : 'hover:bg-white text-brand-navy',
+                  ]}
+                >
+                  <img src={s.icon} alt="" class="w-6 h-6 object-contain" />
+                  <span>{s.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Autres services -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="font-heading text-2xl font-bold mb-8">Découvrez aussi</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {others.map((s) => <ServiceCard service={s} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

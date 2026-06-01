@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { services } from '../../data/services';
+---
+
+<BaseLayout title="Nos services" description="Découvrez les sept domaines d'expertise d'Eclaire Plus à Abidjan.">
+  <!-- Banner -->
+  <section class="relative py-24 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/img/banner-bg.jpg')"></div>
+    <div class="absolute inset-0 bg-brand-navy/85"></div>
+    <div class="relative max-w-7xl mx-auto px-4 text-center">
+      <h1 class="font-heading text-4xl md:text-5xl font-black mb-4">Nos services</h1>
+      <nav class="text-gray-300"><a href="/" class="hover:text-brand-red">Accueil</a> / <span class="text-brand-red">Services</span></nav>
+    </div>
+  </section>
+
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-brand-red font-medium tracking-widest text-sm">| EXPERTISES</span>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-3">Sept métiers, une seule équipe</h2>
+        <p class="text-gray-600 mt-4">
+          De l'étude initiale à la maintenance, nous prenons en charge chaque étape de vos projets techniques et BTP.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services.map((s, i) => <ServiceCard service={s} index={i} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

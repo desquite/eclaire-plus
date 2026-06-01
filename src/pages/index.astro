@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { site } from '../data/site';
+import { services } from '../data/services';
+
+const features = [
+  {
+    title: 'Planification initiale totale',
+    text: 'Nous vous garantissons le respect des délais conformément à la planification convenue.',
+    icon: 'calendar',
+  },
+  {
+    title: 'Excellent processus de travail',
+    text: 'Nos méthodes sont construites autour de la satisfaction client à chaque étape.',
+    icon: 'process',
+  },
+  {
+    title: 'Prix abordables',
+    text: 'Un rapport qualité-prix défiant toute concurrence sur le marché ivoirien.',
+    icon: 'coin',
+  },
+];
+
+const commitments = [
+  {
+    title: 'Assurance qualité',
+    text: "Une équipe expérimentée et qualifiée qui s'engage à fournir des services de qualité supérieure à chaque client.",
+    icon: 'award',
+  },
+  {
+    title: 'Responsabilité sociale',
+    text: "Nous minimisons notre impact environnemental en utilisant des matériaux écologiques et des pratiques de construction éco-responsables.",
+    icon: 'leaf',
+  },
+];
+---
+
+<BaseLayout>
+  <!-- HERO -->
+  <section class="relative min-h-[600px] flex items-center text-white overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/img/hero-slider-img/slide1.jpg')"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/80 to-brand-navy/40"></div>
+    <div class="relative max-w-7xl mx-auto px-4 py-20 grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="inline-block text-brand-red font-medium tracking-widest text-sm mb-4">{site.slogan}</span>
+        <h1 class="font-heading text-4xl md:text-6xl font-black leading-tight mb-6">
+          Société d'étude <br/>
+          <span class="text-brand-red">et de réalisation</span>
+        </h1>
+        <p class="text-lg text-gray-200 mb-8 max-w-xl">
+          Spécialiste en électricité, climatisation, plomberie, informatique, vidéosurveillance, sécurité incendie et BTP à Abidjan.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/contact" class="bg-brand-red hover:bg-brand-red-dark px-7 py-3 rounded-md font-medium transition">
+            Demander un devis
+          </a>
+          <a href="/services" class="bg-white/10 backdrop-blur border border-white/30 hover:bg-white/20 px-7 py-3 rounded-md font-medium transition">
+            Nos services
+          </a>
+        </div>
+      </div>
+      <div class="hidden lg:flex gap-4 justify-end">
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 w-56">
+          <div class="text-4xl font-black text-brand-red">10+</div>
+          <div class="text-sm text-gray-200 mt-1">Années d'expérience</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 w-56 mt-12">
+          <div class="text-4xl font-black text-brand-red">7</div>
+          <div class="text-sm text-gray-200 mt-1">Métiers couverts</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUI SOMMES NOUS -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="text-brand-red font-medium tracking-widest text-sm">| QUI SOMMES-NOUS ?</span>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-3 mb-6">
+          Nous sommes <span class="text-brand-red">{site.name}</span>
+        </h2>
+        <p class="text-gray-600 leading-relaxed mb-6">
+          Une entreprise spécialisée dans les services de construction, rénovation et maintenance pour les projets domestiques et commerciaux. Nous sommes fiers de notre équipe expérimentée, qualifiée et professionnelle.
+        </p>
+        <p class="text-gray-600 leading-relaxed mb-8">
+          Pour tous vos travaux en <strong>électricité, climatisation, plomberie, informatique, sécurité-incendie, vidéosurveillance et BTP</strong>, nous sommes à votre service.
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-6">
+          {commitments.map((c) => (
+            <div class="bg-gray-50 p-6 rounded-xl">
+              <div class="w-12 h-12 bg-brand-red/10 text-brand-red rounded-lg flex items-center justify-center mb-4">
+                {c.icon === 'award' && (
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                )}
+                {c.icon === 'leaf' && (
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.293-11.707a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L11.586 11H7a1 1 0 110-2h4.586l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                )}
+              </div>
+              <h3 class="font-heading font-bold text-lg mb-2">{c.title}</h3>
+              <p class="text-gray-600 text-sm leading-relaxed">{c.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="relative">
+        <img src="/img/hero-slider-img/hero-slider-img-3.jpg" alt="Équipe Eclaire Plus" class="rounded-2xl w-full h-[500px] object-cover" />
+        <div class="absolute -bottom-6 -left-6 bg-brand-red text-white p-6 rounded-xl shadow-xl max-w-[200px] hidden md:block">
+          <div class="text-3xl font-black">24/7</div>
+          <div class="text-sm">Support client en continu</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POURQUOI NOUS CHOISIR -->
+  <section class="relative py-20 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/img/feathers-bg.jpg')"></div>
+    <div class="absolute inset-0 bg-brand-navy/90"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-brand-red font-medium tracking-widest text-sm">| POURQUOI NOUS CHOISIR</span>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-3">Trois engagements qui font la différence</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        {features.map((f) => (
+          <div class="bg-white/10 backdrop-blur border border-white/20 p-8 rounded-xl text-center hover:bg-white/15 transition">
+            <div class="w-16 h-16 mx-auto bg-brand-red rounded-full flex items-center justify-center mb-5">
+              {f.icon === 'calendar' && <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>}
+              {f.icon === 'process' && <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>}
+              {f.icon === 'coin' && <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>}
+            </div>
+            <h3 class="font-heading font-bold text-xl mb-3">{f.title}</h3>
+            <p class="text-gray-300 leading-relaxed">{f.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-brand-red font-medium tracking-widest text-sm">| NOS SERVICES</span>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-3">Des services de qualité</h2>
+        <p class="text-gray-600 mt-4">Sept domaines d'expertise pour vos projets domestiques et professionnels.</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services.map((s, i) => <ServiceCard service={s} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Devis -->
+  <section class="relative py-16 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/img/subscribe-bg.jpg')"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-red/95 to-brand-red-dark/90"></div>
+    <div class="relative max-w-7xl mx-auto px-4 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-center md:text-left">
+      <div>
+        <h2 class="font-heading text-2xl md:text-3xl font-bold mb-2">Un projet en tête ?</h2>
+        <p class="text-white/90">Recevez un devis gratuit et personnalisé sous 24h.</p>
+      </div>
+      <div class="flex flex-wrap gap-4 md:flex-shrink-0">
+        <a href="/contact" class="bg-white text-brand-red px-7 py-3 rounded-md font-medium hover:bg-gray-100 transition">
+          Demander un devis
+        </a>
+        <a href={`tel:${site.phones[0].replace(/\s/g, '')}`} class="border-2 border-white px-7 py-3 rounded-md font-medium hover:bg-white hover:text-brand-red transition">
+          {site.phones[0]}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
