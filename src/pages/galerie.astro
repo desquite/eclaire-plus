@@ -1,30 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { projets } from '../data/projets';
 
-// Photos illustratives Unsplash en attendant les vraies réalisations.
-// Tags et titres alignés sur ce que chaque image montre réellement.
-const items = [
-  { src: '/img/hero-slider-img/slide1.jpg',           tag: 'BTP',          title: 'Ferraillage de dalle béton' },
-  { src: '/img/hero-slider-img/hero-slider-img-4.jpg',tag: 'BTP',          title: 'Équipe sur chantier en élévation' },
-  { src: '/img/counter-bg.jpg',                       tag: 'BTP',          title: 'Travail en hauteur sur structure' },
-  { src: '/img/feathers-bg.jpg',                      tag: 'Études',       title: 'Conception de plan architectural' },
-  { src: '/img/price-bg.jpg',                         tag: 'Études',       title: 'Plan technique au détail' },
-  { src: '/img/hero-slider-img/hero-slider-img-3.jpg',tag: 'Électricité',  title: 'Test et diagnostic au multimètre' },
-  { src: '/img/hero-slider-img/slide2.webp',          tag: 'Informatique', title: 'Développement et maintenance systèmes' },
-  { src: '/img/partner-bg.jpg',                       tag: 'Équipe',       title: 'Réunion projet en équipe' },
-  { src: '/img/contact-info-bg.jpg',                  tag: 'Architecture', title: 'Skyline urbaine de nuit' },
-];
-
-const categories = ['Tous', ...Array.from(new Set(items.map((i) => i.tag)))];
+const categories = ['Tous', ...Array.from(new Set(projets.map((p) => p.tag)))];
 ---
 
-<BaseLayout title="Galerie" description="Découvrez quelques-unes de nos réalisations dans le BTP, l'électricité, la climatisation et plus encore.">
+<BaseLayout title="Galerie" description="Découvrez les réalisations d'Eclaire Plus : construction, électricité et climatisation en Côte d'Ivoire et au Sénégal.">
   <!-- Banner -->
   <section class="relative py-24 text-white overflow-hidden">
-    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/img/banner-bg.jpg')"></div>
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/img/projets/immeuble-r3-seguela-facade.jpeg')"></div>
     <div class="absolute inset-0 bg-brand-navy/85"></div>
     <div class="relative max-w-7xl mx-auto px-4 text-center">
-      <h1 class="font-heading text-4xl md:text-5xl font-black mb-4">Galerie</h1>
+      <h1 class="font-heading text-4xl md:text-5xl font-black mb-4">Nos réalisations</h1>
       <nav class="text-gray-300"><a href="/" class="hover:text-brand-red">Accueil</a> / <span class="text-brand-red">Galerie</span></nav>
     </div>
   </section>
@@ -32,10 +19,11 @@ const categories = ['Tous', ...Array.from(new Set(items.map((i) => i.tag)))];
   <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4">
       <div class="text-center max-w-2xl mx-auto mb-12">
-        <span class="text-brand-red font-medium tracking-widest text-sm">| QUELQUES RÉALISATIONS</span>
-        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-3">Nos chantiers en images</h2>
+        <span class="text-brand-red font-medium tracking-widest text-sm">| NOS PROJETS</span>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-3">Des chantiers menés à bien</h2>
         <p class="text-gray-600 mt-4">
-          Aperçu de quelques projets que nous avons menés à bien pour des clients particuliers et professionnels.
+          De la construction d'immeubles et villas aux installations électriques et de climatisation,
+          découvrez un aperçu de nos réalisations.
         </p>
       </div>
 
@@ -56,40 +44,115 @@ const categories = ['Tous', ...Array.from(new Set(items.map((i) => i.tag)))];
 
       <!-- Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((item) => (
+        {projets.map((p, i) => (
           <figure
-            data-tag={item.tag}
-            class="gallery-item group relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition aspect-[4/3]"
+            data-tag={p.tag}
+            data-index={i}
+            class="gallery-item group relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition aspect-[4/3] cursor-pointer"
           >
-            <img src={item.src} alt={item.title} loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+            <img src={p.src} alt={p.title} loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
             <figcaption class="absolute inset-0 bg-gradient-to-t from-brand-navy/95 via-brand-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-5">
-              <span class="text-brand-red text-xs font-bold tracking-widest mb-2">{item.tag.toUpperCase()}</span>
-              <h3 class="text-white font-heading font-bold text-lg">{item.title}</h3>
+              <span class="text-brand-red text-xs font-bold tracking-widest mb-2">{p.tag.toUpperCase()}{p.location ? ` · ${p.location}` : ''}</span>
+              <h3 class="text-white font-heading font-bold text-lg leading-tight">{p.title}</h3>
+              <span class="mt-2 inline-flex items-center gap-1 text-white/80 text-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                Agrandir
+              </span>
             </figcaption>
           </figure>
         ))}
       </div>
 
-      <p class="text-center text-gray-500 text-sm mt-12">
-        Photos illustratives en attente de remplacement par les vraies réalisations.
-      </p>
+      <p id="gallery-empty" class="hidden text-center text-gray-500 mt-12">Aucun projet dans cette catégorie.</p>
     </div>
   </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="font-heading text-2xl md:text-3xl font-bold mb-3">Un projet similaire ?</h2>
+      <p class="text-gray-600 mb-6">Parlez-nous de votre chantier, nous vous accompagnons de l'étude à la réalisation.</p>
+      <a href="/contact" class="inline-block bg-brand-red text-white px-8 py-3 rounded-md font-medium hover:bg-brand-red-dark transition">
+        Demander un devis gratuit
+      </a>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 p-4">
+    <button id="lb-close" aria-label="Fermer" class="absolute top-4 right-4 text-white/80 hover:text-white p-2">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <button id="lb-prev" aria-label="Précédent" class="absolute left-2 md:left-6 text-white/80 hover:text-white p-2">
+      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <button id="lb-next" aria-label="Suivant" class="absolute right-2 md:right-6 text-white/80 hover:text-white p-2">
+      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <figure class="max-w-5xl w-full text-center">
+      <img id="lb-img" src="" alt="" class="max-h-[80vh] w-auto mx-auto rounded-lg" />
+      <figcaption class="mt-4 text-white">
+        <span id="lb-tag" class="text-brand-red text-xs font-bold tracking-widest block mb-1"></span>
+        <span id="lb-title" class="font-heading font-bold text-lg"></span>
+      </figcaption>
+    </figure>
+  </div>
 </BaseLayout>
 
 <script>
-  const buttons = document.querySelectorAll('.gallery-filter');
-  const items = document.querySelectorAll('.gallery-item');
+  import { projets } from '../data/projets';
+
+  // Filtres
+  const buttons = document.querySelectorAll<HTMLElement>('.gallery-filter');
+  const items = document.querySelectorAll<HTMLElement>('.gallery-item');
+  const empty = document.getElementById('gallery-empty');
+
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
       buttons.forEach((b) => { b.classList.remove('bg-brand-red', 'text-white'); b.classList.add('bg-gray-100', 'text-brand-navy'); });
       btn.classList.remove('bg-gray-100', 'text-brand-navy');
       btn.classList.add('bg-brand-red', 'text-white');
-      const filter = (btn as HTMLElement).dataset.filter;
+      const filter = btn.dataset.filter;
+      let visible = 0;
       items.forEach((item) => {
-        const el = item as HTMLElement;
-        el.style.display = filter === 'Tous' || el.dataset.tag === filter ? '' : 'none';
+        const show = filter === 'Tous' || item.dataset.tag === filter;
+        item.style.display = show ? '' : 'none';
+        if (show) visible++;
       });
+      empty?.classList.toggle('hidden', visible > 0);
     });
+  });
+
+  // Lightbox
+  const lb = document.getElementById('lightbox')!;
+  const lbImg = document.getElementById('lb-img') as HTMLImageElement;
+  const lbTag = document.getElementById('lb-tag')!;
+  const lbTitle = document.getElementById('lb-title')!;
+  let current = 0;
+
+  const render = () => {
+    const p = projets[current];
+    lbImg.src = p.src;
+    lbImg.alt = p.title;
+    lbTag.textContent = p.tag.toUpperCase() + (p.location ? ` · ${p.location}` : '');
+    lbTitle.textContent = p.title;
+  };
+  const open = (i: number) => { current = i; render(); lb.classList.remove('hidden'); lb.classList.add('flex'); document.body.style.overflow = 'hidden'; };
+  const close = () => { lb.classList.add('hidden'); lb.classList.remove('flex'); document.body.style.overflow = ''; };
+  const next = () => { current = (current + 1) % projets.length; render(); };
+  const prev = () => { current = (current - 1 + projets.length) % projets.length; render(); };
+
+  items.forEach((item) => {
+    item.addEventListener('click', () => open(Number(item.dataset.index)));
+  });
+  document.getElementById('lb-close')?.addEventListener('click', close);
+  document.getElementById('lb-next')?.addEventListener('click', next);
+  document.getElementById('lb-prev')?.addEventListener('click', prev);
+  lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (lb.classList.contains('hidden')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
   });
 </script>
