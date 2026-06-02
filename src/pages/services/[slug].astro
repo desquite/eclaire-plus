@@ -12,7 +12,7 @@ const { service } = Astro.props;
 const others = services.filter((s) => s.slug !== service.slug).slice(0, 3);
 ---
 
-<BaseLayout title={service.title} description={service.excerpt}>
+<BaseLayout title={`${service.title} à Abidjan`} description={`${service.title} à Abidjan et en Côte d'Ivoire — ${service.excerpt} Eclaire Plus, devis gratuit, intervention 24h/24.`}>
   <!-- Banner -->
   <section class="relative py-24 text-white overflow-hidden">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/img/banner-bg.jpg')"></div>

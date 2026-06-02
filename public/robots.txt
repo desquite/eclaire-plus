@@ -1,0 +1,11 @@
+# Eclaire Plus — robots.txt
+# On autorise tous les robots à explorer tout le site (site vitrine public).
+
+User-agent: *
+Allow: /
+
+# On évite de faire indexer les routes techniques (API)
+Disallow: /api/
+
+# Sitemap (généré automatiquement au build)
+Sitemap: https://eclaire-plus.com/sitemap-index.xml

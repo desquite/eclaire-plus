@@ -2,15 +2,65 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
+import { services } from '../data/services';
 
 export interface Props {
   title?: string;
   description?: string;
   image?: string;
 }
-const { title, description = site.description, image = '/img/hero-slider-img/slide1.jpg' } = Astro.props;
-const fullTitle = title ? `${title} – ${site.name}` : `${site.name} – ${site.tagline}`;
+const { title, description = site.description, image = '/img/projets/immeuble-r3-seguela-facade.jpeg' } = Astro.props;
+const fullTitle = title ? `${title} – ${site.name}` : `${site.name} – Électricité, Climatisation & BTP à Abidjan`;
 const canonical = new URL(Astro.url.pathname, site.url).toString();
+const ogImage = new URL(image, site.url).toString();
+const isHome = Astro.url.pathname === '/';
+
+// Données structurées Schema.org — aide Google à comprendre l'entreprise (SEO local)
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  '@id': `${site.url}/#business`,
+  name: site.name,
+  description: site.description,
+  url: site.url,
+  telephone: site.phonesE164[0],
+  email: site.email,
+  image: ogImage,
+  logo: new URL('/img/logonotext.png', site.url).toString(),
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.locality,
+    addressRegion: site.address.region,
+    addressCountry: site.address.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: site.geo.lat,
+    longitude: site.geo.lng,
+  },
+  areaServed: site.areaServed.map((a) => ({ '@type': 'Place', name: a })),
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '07:30',
+      closes: '17:30',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Saturday',
+      opens: '08:00',
+      closes: '12:00',
+    },
+  ],
+  sameAs: Object.values(site.social).filter((u) => u && u !== '#'),
+  makesOffer: services.map((s) => ({
+    '@type': 'Offer',
+    itemOffered: { '@type': 'Service', name: s.title, description: s.excerpt },
+  })),
+};
 ---
 
 <!doctype html>
@@ -25,13 +75,33 @@ const canonical = new URL(Astro.url.pathname, site.url).toString();
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content={site.name} />
+
+    <!-- Géolocalisation (SEO local) -->
+    <meta name="geo.region" content="CI-AB" />
+    <meta name="geo.placename" content="Abidjan" />
+    <meta name="geo.position" content={`${site.geo.lat};${site.geo.lng}`} />
+    <meta name="ICBM" content={`${site.geo.lat}, ${site.geo.lng}`} />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={isHome ? 'website' : 'article'} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="fr_FR" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(image, site.url).toString()} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={`Réalisation ${site.name}`} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Données structurées -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
