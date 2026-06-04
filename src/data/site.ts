@@ -10,16 +10,16 @@ export const site = {
   // Forme E.164 pour les données structurées (sans espaces)
   phonesE164: ['+2250799018360', '+2250777800884'],
   address: {
-    full: 'Bingerville, près de la gare routière, Abidjan',
-    street: 'Bingerville, près de la gare routière',
+    full: 'Zone Industrielle de Koumassi, Abidjan',
+    street: 'Zone Industrielle, Koumassi',
     locality: 'Abidjan',
     region: 'Abidjan',
     country: 'CI',
   },
-  // Coordonnées approximatives de Bingerville — à affiner via Google Business Profile
-  geo: { lat: 5.3556, lng: -3.8847 },
+  // Coordonnées approximatives de Koumassi Zone Industrielle — à affiner via Google Business Profile
+  geo: { lat: 5.2980, lng: -3.9490 },
   // Zones d'intervention (SEO local)
-  areaServed: ['Abidjan', 'Bingerville', 'Cocody', 'Assinie', 'Côte d’Ivoire'],
+  areaServed: ['Abidjan', 'Koumassi', 'Cocody', 'Assinie', 'Côte d’Ivoire'],
   hours: [
     { day: 'Lundi - Vendredi', value: '7h30 - 17h30' },
     { day: 'Samedi', value: '8h00 - 12h00' },
